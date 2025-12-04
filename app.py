@@ -96,12 +96,12 @@ def get_fighters():
     return jsonify(rows)
 
 def classify_style(sa, sb):
-    if sa > 1.5 * sb:
+    if sa >= sb * 1.1:
         return "Top Roll"
-    elif 0.8 * sb < sa < 1.5 * sb:
-        return "Hook"
-    else:
+    elif sb >= sa * 1.1:
         return "Press"
+    else:
+        return "Hook"
 
 def classify_power(sa, sb):
     total = sa + sb
@@ -179,14 +179,6 @@ def add_product():
 
         return jsonify({
             "message": "Product added!",
-            "data": {
-                "ProductId": product_id,
-                "ProductDescription": data.get("ProductDescription"),
-                "ProductCategory": data.get("ProductCategory"),
-                "ProductPrice": data.get("ProductPrice"),
-                "PhotoURL": data.get("PhotoURL"),
-                "PhotoBase64": data.get("PhotoBase64")
-            }
         }), 201
 
     except Exception as e:
